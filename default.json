@@ -5,7 +5,7 @@
       "mergeConfidence:all-badges"
     ],
     "timezone": "Asia/Tokyo",
-    "schedule": ["before 7am every weekday", "every weekend"],
+    "schedule": ["every weekend"],
     "reviewers": ["TE-ChihiroIsmail"],
     "rebaseWhen": "conflicted",
     "rangeStrategy": "pin",
