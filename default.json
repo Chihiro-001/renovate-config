@@ -4,11 +4,6 @@
       "github>Chihiro-001/renovate-config",
       "mergeConfidence:all-badges"
     ],
-    "baseBranches": [
-      "main",
-      "test/submodule-permission",
-      "test/submodule-permission2"
-    ],
     "timezone": "Asia/Tokyo",
     "schedule": ["before 7am every weekday", "every weekend"],
     "reviewers": ["TE-ChihiroIsmail"],
