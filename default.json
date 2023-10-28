@@ -1,9 +1,8 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
-      "github>SonySemiconductorSolutions/aitrios-sdk-cicd_sandbox",
-      "mergeConfidence:all-badges",
-      "github>SonySemiconductorSolutions/aitrios-sdk-cicd_sandbox:python"
+      "github>Chihiro-001/renovate-config",
+      "mergeConfidence:all-badges"
     ],
     "baseBranches": [
       "main",
