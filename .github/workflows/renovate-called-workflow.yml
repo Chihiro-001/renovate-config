@@ -1,0 +1,75 @@
+name: Renovate - called workflow
+
+on:
+  workflow_call:
+    inputs:
+      owner:
+        description: "A name of an owner"
+        required: true
+        type: string
+      repository:
+        description: "A name of a repository"
+        required: true
+        type: string
+      renovate_username:
+        description: "A username of Renovate bot"
+        required: true
+        type: string
+      renovate_git_author:
+        description: "An email address used by Renovate bot"
+        required: true
+        type: string
+      logLevel:
+        description: "Override default log level"
+        required: false
+        default: "info"
+        type: string
+      overrideSchedule:
+        description: "Override all schedules"
+        required: false
+        default: "false"
+        type: string
+    secrets:
+      app_id:
+        description: "an app id of GitHub Apps"
+        required: true
+      private_key:
+        description: "a private key of GitHub Apps"
+        required: true
+
+# 1つのRenovateのみが走るようにし、コンフリクトするWorkflowが発生しないようにする
+concurrency: renovate
+env:
+  TARGET_OWNER: ${{ inputs.owner }}
+  TARGET_REPO: ${{ inputs.repository }}
+  RENOVATE_USERNAME: ${{ inputs.renovate_username }}
+  RENOVATE_GIT_AUTHOR: ${{ inputs.renovate_git_author }}
+
+jobs:
+  Run-Renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Validate Renovate JSON
+        run: jq type default.json
+      - name: Generate a token
+        id: generate_token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.app_id }}
+          private_key: ${{ secrets.private_key }}
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v39.1.0
+        with:
+          configurationFile: default.json
+          renovate-version: 36.107.1
+          token: ${{ steps.generate_token.outputs.token }}
+        env:
+          RENOVATE_REPOSITORIES: ${{ inputs.repository }}
+          RENOVATE_ONBOARDING: "false"
+          RENOVATE_USERNAME: ${{ inputs.renovate_username }}
+          RENOVATE_GIT_AUTHOR: ${{ inputs.renovate_git_author }}
+          RENOVATE_PLATFORM_COMMIT: "true"
+          RENOVATE_FORCE: ${{ github.event.inputs.overrideSchedule == 'true' && '{''schedule'':null}' || '' }}
+          LOG_LEVEL: ${{ inputs.logLevel || 'debug' }}

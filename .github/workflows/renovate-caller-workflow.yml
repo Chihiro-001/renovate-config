@@ -1,0 +1,19 @@
+name: Renovate - caller workflow
+
+on:
+  workflow_dispatch:
+
+  # schedule:。
+  #   - cron: "0 16 * * * "
+
+jobs:
+  call-workflow:
+    uses: Chihiro-001/renovate-config/.github/workflows/renovate-called-workflow.yml@main
+    with:
+      owner: "Chihiro-001"
+      repository: ${{ vars.RENOVATE_REPOSITORIES }}
+      renovate_username: ${{ vars.RENOVATE_USERNAME }}
+      renovate_git_author: ${{ vars.RENOVATE_GIT_AUTHOR }}
+    secrets:
+      app_id: ${{ secrets.RENOVATE_APP_ID }}
+      private_key: ${{ secrets.RENOVATE_PRIVATE_KEY }}
