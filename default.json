@@ -1,0 +1,38 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+      "github>SonySemiconductorSolutions/aitrios-sdk-cicd_sandbox",
+      "mergeConfidence:all-badges",
+      "github>SonySemiconductorSolutions/aitrios-sdk-cicd_sandbox:python"
+    ],
+    "baseBranches": [
+      "main",
+      "test/submodule-permission",
+      "test/submodule-permission2"
+    ],
+    "timezone": "Asia/Tokyo",
+    "schedule": ["before 7am every weekday", "every weekend"],
+    "reviewers": ["TE-ChihiroIsmail"],
+    "rebaseWhen": "conflicted",
+    "rangeStrategy": "pin",
+    "labels": ["dependencies"],
+    "automergeStrategy": "merge-commit",
+    "git-submodules": {
+      "enabled": true
+    },
+    "packageRules": [
+      {
+        "matchUpdateTypes": ["minor"],
+        "extends": ["schedule:monthly"]
+      },
+      {
+        "matchUpdateTypes": ["patch"],
+        "extends": ["schedule:quarterly"],
+        "automerge": true
+      }
+    ],
+    "vulnerabilityAlerts": {
+      "schedule": ["at any time"]
+    }
+  }
+  
